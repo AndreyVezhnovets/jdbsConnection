@@ -1,11 +1,18 @@
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 public class Main {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
 
-        String url = "jdbc:mysql://localhost:3306/MY";
-        String name = "admin";
-        String password = "mypass";
+        FileInputStream fis;
+        Properties property = new Properties();
+        fis = new FileInputStream("src/main/resources/myRes/currentRes/myProperty.properties");
+        property.load(fis);
+        String url = property.getProperty("url");
+        String name = property.getProperty("name");
+        String password = property.getProperty("password");
         Connection connection = DriverManager.getConnection(url, name, password);
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM table_name");
